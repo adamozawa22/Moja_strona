@@ -1,48 +1,168 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Moja Strona z 2000</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eduvulac – dziennik</title>
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#0d1320;
+  color:#e8eef7;
+}
+header{
+  background:#111a2c;
+  padding:16px;
+  font-size:20px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+main{padding:20px}
+
+.card{
+  max-width:350px;
+  margin:40px auto;
+  padding:22px;
+  background:#141c2d;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+
+label{font-size:13px; opacity:.8}
+input{
+  width:100%;
+  margin-top:6px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #273349;
+  background:#0f1624;
+  color:#fff;
+}
+button{
+  width:100%;
+  margin-top:18px;
+  padding:12px;
+  background:linear-gradient(90deg,#6ee7b7,#60a5fa);
+  color:#072033;
+  border:0;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+}
+nav{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+nav button{
+  flex:1;
+  padding:10px;
+  background:#1a2438;
+  color:#c9d7ee;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.05);
+}
+nav button.active{
+  background:#273349;
+}
+section{display:none}
+section.active{display:block}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  text-align:left;
+}
+.status-ok{color:#7fffd4; font-weight:bold}
+.status-nie{color:#ff8a8a; font-weight:bold}
+</style>
 </head>
-<body background="bg.gif">
-  <center>
-   <h1><img src="logo.gif" alt="LOGO"></h1>
-</a>
-    <marquee>💾 Witaj na mojej stronie 💾</marquee>
-    <table border="1" width="80%">
-      <tr>
-        <td><a href="index.html">🏠 Strona główna</a></td>
-        <td><a href="cytatdnia.html">📃 Cytat dnia</a></td>
-        <td><a href="blog.html">📝 Blog</a></td>
-        <td><a href="slodkiekotki.html">📷 Słodkie Kotki</a></td>
-        <td><a href="contact.html">📧 Kontakt</a></td>
-     <td><a href="browser-test.html">📡 browser test</a></td>
-      </tr>
+<body>
+
+<header>eduvulac — dziennik</header>
+
+<!-- LOGOWANIE -->
+<main id="loginPage">
+  <div class="card">
+    <h2>Logowanie</h2>
+    <label>Email</label>
+    <input id="email" type="email" value="ewazawadzka18@wp.pl">
+    <label>Hasło</label>
+    <input id="pass" type="password" value="betowen1">
+    <button onclick="login()">Zaloguj</button>
+    <div id="err" style="margin-top:10px;color:#ff8a8a;"></div>
+  </div>
+</main>
+
+<!-- PANEL -->
+<main id="panel" style="display:none">
+
+  <nav>
+    <button id="bPlan" class="active" onclick="showTab('plan', this)">Plan lekcji</button>
+    <button id="bFrek" onclick="showTab('frek', this)">Frekwencja</button>
+  </nav>
+
+  <!-- PLAN LEKCJI -->
+  <section id="plan" class="active">
+    <h2>Plan lekcji</h2>
+
+    <table>
+      <tr><th>Godzina</th><th>Przedmiot</th></tr>
+      <tr><td>08:00 - 08:45</td><td>Matematyka</td></tr>
+      <tr><td>08:55 - 09:40</td><td>Polski</td></tr>
+      <tr><td>09:50 - 10:35</td><td>Historia</td></tr>
+      <tr><td>10:45 - 11:30</td><td>Informatyka</td></tr>
+      <tr><td>11:40 - 12:25</td><td>Biologia</td></tr>
     </table>
-    <h2>🔥 Nowości 🔥</h2>
-    <p>Witaj na mojej pierwszej stronie! 🤘</p>
-  <hr>
-<center>
-  <img src="linuxnow.jpg" alt="Linux Now!" width="88" height="31">
-  <p><small>2025-2025 Moja Strona Retro</small></p>
-</center>
-<a href="https://www.freecounterstat.com" title="website page view counter"><img src="https://counter5.optistats.ovh/private/freecounterstat.php?c=cw29nxzmczg72wuz5d3ccgm6ste7q8ny" border="0" title="website page view counter" alt="website page view counter"></a>
+  </section>
+
+  <!-- FREKWENCJA -->
+  <section id="frek">
+    <h2>Frekwencja</h2>
+
+    <table>
+      <tr><th>Data</th><th>Status</th></tr>
+      <tr><td>2025-11-10</td><td class="status-ok">Obecny</td></tr>
+      <tr><td>2025-11-09</td><td class="status-ok">Obecny</td></tr>
+      <tr><td>2025-11-08</td><td class="status-nie">Nieobecny</td></tr>
+      <tr><td>2025-11-07</td><td class="status-ok">Obecny</td></tr>
+    </table>
+  </section>
+
+</main>
+
+<script>
+// dane demo
+const DEMO_EMAIL = "ewazawadzka18@wp.pl";
+const DEMO_PASS = "betowen1";
+
+// logowanie
+function login(){
+  let e = document.getElementById("email").value.trim();
+  let p = document.getElementById("pass").value;
+  if(e === DEMO_EMAIL && p === DEMO_PASS){
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+  } else {
+    document.getElementById("err").textContent = "✖ Złe dane";
+  }
+}
+
+// zakładki
+function showTab(name, btn){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  document.getElementById(name).classList.add("active");
+  btn.classList.add("active");
+}
+</script>
+
 </body>
 </html>
-<hr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
