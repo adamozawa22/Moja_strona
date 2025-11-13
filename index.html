@@ -3,165 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eduvulac – dziennik</title>
+<title>Demo Vulcan + CookieManager</title>
 <style>
-body{
-  margin:0;
-  font-family:Segoe UI,Arial;
-  background:#0d1320;
-  color:#e8eef7;
-}
-header{
-  background:#111a2c;
-  padding:16px;
-  font-size:20px;
-  text-align:center;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-}
-main{padding:20px}
-
-.card{
-  max-width:350px;
-  margin:40px auto;
-  padding:22px;
-  background:#141c2d;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.04);
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
-}
-
-label{font-size:13px; opacity:.8}
-input{
-  width:100%;
-  margin-top:6px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #273349;
-  background:#0f1624;
-  color:#fff;
-}
-button{
-  width:100%;
-  margin-top:18px;
-  padding:12px;
-  background:linear-gradient(90deg,#6ee7b7,#60a5fa);
-  color:#072033;
-  border:0;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-}
-nav{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-nav button{
-  flex:1;
-  padding:10px;
-  background:#1a2438;
-  color:#c9d7ee;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.05);
-}
-nav button.active{
-  background:#273349;
-}
-section{display:none}
-section.active{display:block}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-}
-th,td{
-  padding:10px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  text-align:left;
-}
-.status-ok{color:#7fffd4; font-weight:bold}
-.status-nie{color:#ff8a8a; font-weight:bold}
+  body { font-family: Arial, sans-serif; margin:0; padding:0; }
+  .item-hidden { display: none; }
+  #message-overlay { position: fixed; bottom: 10px; right: 10px; z-index: 9999; }
+  .message-snackbar, .message-snackbar-error { background: #333; color: #fff; padding: 10px; margin-bottom:5px; border-radius: 4px; }
+  #captcha-progress-wrapper { width: 100%; background:#eee; height:20px; margin:10px 0; }
+  #captcha-progress-fill { background:#4caf50; height:100%; width:0%; }
+  #captcha-success-wrapper { display:none; color: green; }
+  iframe { width: 100%; border:1px solid #ccc; }
 </style>
 </head>
 <body>
 
-<header>eduvulac — dziennik</header>
+<h1>Demo Vulcan + CookieManager</h1>
 
-<!-- LOGOWANIE -->
-<main id="loginPage">
-  <div class="card">
-    <h2>Logowanie</h2>
-    <label>Email</label>
-    <input id="email" type="email" value="ewazawadzka18@wp.pl">
-    <label>Hasło</label>
-    <input id="pass" type="password" value="betowen1">
-    <button onclick="login()">Zaloguj</button>
-    <div id="err" style="margin-top:10px;color:#ff8a8a;"></div>
+<!-- Cookie & Privacy -->
+<div id="respect-privacy-wrapper" class="item-hidden">
+  <p>Ustawienia prywatności</p>
+  <a href="#" id="cookie-settings-link">Ustawienia cookies</a>
+</div>
+
+<div id="cookie-settings-wrapper" class="item-hidden">
+  <p>Cookie settings</p>
+  <button id="save-settings-btn">Zapisz ustawienia</button>
+</div>
+
+<div id="information-clause-wrapper" class="item-hidden">
+  <iframe id="information-clause-frame" src="about:blank" height="200"></iframe>
+</div>
+
+<!-- Captcha -->
+<div class="captcha-wrapper" data-challenge="testchallenge" data-difficulty="10" data-rounds="1">
+  <div id="captcha-progress-wrapper" class="active">
+    <div id="captcha-progress-fill"></div>
+    <div id="captcha-progress-text">0%</div>
   </div>
-</main>
+  <input type="hidden" id="captcha-response">
+  <div id="captcha-success-wrapper">Captcha rozwiązana!</div>
+</div>
 
-<!-- PANEL -->
-<main id="panel" style="display:none">
+<!-- Messages -->
+<div id="message-overlay" style="display:none">
+  <div class="message-snackbar">
+    <span>To jest wiadomość testowa</span>
+    <button class="message-snackbar-close">X</button>
+  </div>
+</div>
 
-  <nav>
-    <button id="bPlan" class="active" onclick="showTab('plan', this)">Plan lekcji</button>
-    <button id="bFrek" onclick="showTab('frek', this)">Frekwencja</button>
-  </nav>
+<!-- Iframe demo -->
+<iframe id="vframe" src="about:blank" height="300"></iframe>
 
-  <!-- PLAN LEKCJI -->
-  <section id="plan" class="active">
-    <h2>Plan lekcji</h2>
+<!-- Accessibility buttons -->
+<button id="contrast0">Jasny</button>
+<button id="contrast1">Ciemny</button>
+<button id="fontSize0">Mały</button>
+<button id="fontSize1">Średni</button>
+<button id="fontSize2">Duży</button>
 
-    <table>
-      <tr><th>Godzina</th><th>Przedmiot</th></tr>
-      <tr><td>08:00 - 08:45</td><td>Matematyka</td></tr>
-      <tr><td>08:55 - 09:40</td><td>Polski</td></tr>
-      <tr><td>09:50 - 10:35</td><td>Historia</td></tr>
-      <tr><td>10:45 - 11:30</td><td>Informatyka</td></tr>
-      <tr><td>11:40 - 12:25</td><td>Biologia</td></tr>
-    </table>
-  </section>
-
-  <!-- FREKWENCJA -->
-  <section id="frek">
-    <h2>Frekwencja</h2>
-
-    <table>
-      <tr><th>Data</th><th>Status</th></tr>
-      <tr><td>2025-11-10</td><td class="status-ok">Obecny</td></tr>
-      <tr><td>2025-11-09</td><td class="status-ok">Obecny</td></tr>
-      <tr><td>2025-11-08</td><td class="status-nie">Nieobecny</td></tr>
-      <tr><td>2025-11-07</td><td class="status-ok">Obecny</td></tr>
-    </table>
-  </section>
-
-</main>
-
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// dane demo
-const DEMO_EMAIL = "ewazawadzka18@wp.pl";
-const DEMO_PASS = "betowen1";
-
-// logowanie
-function login(){
-  let e = document.getElementById("email").value.trim();
-  let p = document.getElementById("pass").value;
-  if(e === DEMO_EMAIL && p === DEMO_PASS){
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("panel").style.display = "block";
-  } else {
-    document.getElementById("err").textContent = "✖ Złe dane";
-  }
-}
-
-// zakładki
-function showTab(name, btn){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-  document.getElementById(name).classList.add("active");
-  btn.classList.add("active");
-}
+// Tutaj wklej cały JS, który wysłałeś, od CookieManager do Vulcan
 </script>
 
 </body>
