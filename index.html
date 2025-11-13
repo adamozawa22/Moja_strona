@@ -3,48 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Vulcan + CookieManager</title>
+<title>Vulcan Demo Strona</title>
 <style>
   body { font-family: Arial, sans-serif; margin:0; padding:0; }
-  .item-hidden { display: none; }
+  header { background:#4CAF50; color:#fff; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; }
+  nav a { color:#fff; margin:0 10px; text-decoration:none; }
+  .item-hidden { display:none; }
   #message-overlay { position: fixed; bottom: 10px; right: 10px; z-index: 9999; }
   .message-snackbar, .message-snackbar-error { background: #333; color: #fff; padding: 10px; margin-bottom:5px; border-radius: 4px; }
+  iframe { width: 100%; border:1px solid #ccc; }
+  main { padding: 20px; }
+  .cookie-wrapper, .captcha-wrapper { border:1px solid #ccc; padding:15px; margin:10px 0; border-radius:5px; }
+  button { padding:5px 10px; margin:2px; cursor:pointer; }
   #captcha-progress-wrapper { width: 100%; background:#eee; height:20px; margin:10px 0; }
   #captcha-progress-fill { background:#4caf50; height:100%; width:0%; }
   #captcha-success-wrapper { display:none; color: green; }
-  iframe { width: 100%; border:1px solid #ccc; }
 </style>
 </head>
 <body>
 
-<h1>Demo Vulcan + CookieManager</h1>
+<header>
+  <h1>Vulcan Demo</h1>
+  <nav>
+    <a href="#" id="information-clause-link">Informacje</a>
+    <a href="#" id="cookie-settings-link">Ustawienia Cookies</a>
+    <a href="#" id="header-user">Panel logowania</a>
+  </nav>
+</header>
 
-<!-- Cookie & Privacy -->
-<div id="respect-privacy-wrapper" class="item-hidden">
-  <p>Ustawienia prywatności</p>
-  <a href="#" id="cookie-settings-link">Ustawienia cookies</a>
+<div id="panelLogin" class="item-hidden" style="padding:10px; background:#eee;">
+  <p>Panel logowania</p>
+  <input type="text" placeholder="Login"><br>
+  <input type="password" placeholder="Hasło"><br>
+  <button>Zaloguj</button>
 </div>
 
-<div id="cookie-settings-wrapper" class="item-hidden">
-  <p>Cookie settings</p>
-  <button id="save-settings-btn">Zapisz ustawienia</button>
-</div>
-
-<div id="information-clause-wrapper" class="item-hidden">
-  <iframe id="information-clause-frame" src="about:blank" height="200"></iframe>
-</div>
-
-<!-- Captcha -->
-<div class="captcha-wrapper" data-challenge="testchallenge" data-difficulty="10" data-rounds="1">
-  <div id="captcha-progress-wrapper" class="active">
-    <div id="captcha-progress-fill"></div>
-    <div id="captcha-progress-text">0%</div>
+<main>
+  <div id="respect-privacy-wrapper" class="cookie-wrapper item-hidden">
+    <p>Ustawienia prywatności</p>
+    <a href="#" id="cookie-settings-link2">Ustawienia cookies</a>
   </div>
-  <input type="hidden" id="captcha-response">
-  <div id="captcha-success-wrapper">Captcha rozwiązana!</div>
-</div>
 
-<!-- Messages -->
+  <div id="cookie-settings-wrapper" class="cookie-wrapper item-hidden">
+    <p>Cookie settings</p>
+    <button id="save-settings-btn">Zapisz ustawienia</button>
+  </div>
+
+  <div id="information-clause-wrapper" class="cookie-wrapper item-hidden">
+    <iframe id="information-clause-frame" src="about:blank" height="200"></iframe>
+  </div>
+
+  <div class="captcha-wrapper" data-challenge="testchallenge" data-difficulty="10" data-rounds="1">
+    <div id="captcha-progress-wrapper" class="active">
+      <div id="captcha-progress-fill"></div>
+      <div id="captcha-progress-text">0%</div>
+    </div>
+    <input type="hidden" id="captcha-response">
+    <div id="captcha-success-wrapper">Captcha rozwiązana!</div>
+  </div>
+
+  <iframe id="vframe" src="about:blank" height="300"></iframe>
+
+  <div id="accessibility-buttons">
+    <p>Dostępność:</p>
+    <button id="contrast0">Jasny</button>
+    <button id="contrast1">Ciemny</button>
+    <button id="fontSize0">Mały</button>
+    <button id="fontSize1">Średni</button>
+    <button id="fontSize2">Duży</button>
+  </div>
+</main>
+
 <div id="message-overlay" style="display:none">
   <div class="message-snackbar">
     <span>To jest wiadomość testowa</span>
@@ -52,20 +81,9 @@
   </div>
 </div>
 
-<!-- Iframe demo -->
-<iframe id="vframe" src="about:blank" height="300"></iframe>
-
-<!-- Accessibility buttons -->
-<button id="contrast0">Jasny</button>
-<button id="contrast1">Ciemny</button>
-<button id="fontSize0">Mały</button>
-<button id="fontSize1">Średni</button>
-<button id="fontSize2">Duży</button>
-
-<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Tutaj wklej cały JS, który wysłałeś, od CookieManager do Vulcan
+// Tutaj wklejasz cały JS, który mi wysłałeś
 </script>
 
 </body>
